@@ -1,0 +1,11 @@
+@import "~bootstrap/scss/bootstrap";
+
+.todo-item{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  strong{
+    margin-right: 1rem;
+  }
+}
