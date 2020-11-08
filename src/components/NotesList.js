@@ -1,26 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const NotesList = ({notes}) => {
+const NotesList = ({notes, onRemove}) => (
+    <ul className="list-group">
+      {notes.map(note => (
+          <li className="list-group-item todo-item" key={note.id}>
+            <div>
+              <strong>{note.title}</strong>
+              <small>{note.date}</small>
+            </div>
 
-  return (
-      <ul className="list-group">
-        {notes.map(note => (
-            <li className="list-group-item todo-item" key={note.id}>
-              <div>
-                <strong>{note.title}</strong>
-                <small>{new Date().toLocaleDateString()}</small>
-              </div>
-
-              <button type="button" className="btn btn-outline-danger btn-sm">&times;</button>
-            </li>
-        ))}
-      </ul>
-  )
-}
+            <button type="button"
+                    className="btn btn-outline-danger btn-sm"
+                    onClick={() => onRemove(note.id)}
+            >&times;</button>
+          </li>
+      ))}
+    </ul>
+)
 
 NotesList.propTypes = {
-  notes: PropTypes.arrayOf(PropTypes.object).isRequired
+  notes: PropTypes.arrayOf(PropTypes.object).isRequired,
+  onRemove: PropTypes.func.isRequired
 }
 
 export default NotesList;
