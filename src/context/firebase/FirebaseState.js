@@ -34,8 +34,13 @@ export const FirebaseState = ({children}) => {
 
   const addNote = async title => {
     const note = {
-      title, date: new Date().toJSON()
+      title, date: new Date().toJSON(),
+      complete: false
     }
+    await addExactNote(note);
+  }
+
+  const addExactNote = async note => {
     try {
       const res = await axios.post(`${url}/notes.json`, note);
       const payload = {
@@ -54,9 +59,16 @@ export const FirebaseState = ({children}) => {
     dispatch({type: REMOVE_NOTE, payload: id})
   }
 
+  const changeNote = async note => {
+    // TODO: изменять заметку без излишнего удаления/добавления заметки.
+    // Как изменить заметку? Удалить старую и создать новую с тем же id?
+    await removeNote(note.id);
+    await addExactNote(note);
+  }
+
   return (
       <FirebaseContext.Provider value={{
-        showLoader, addNote, removeNote, fetchNotes,
+        showLoader, addNote, removeNote, fetchNotes, changeNote,
         loading: state.loading,
         notes: state.notes
       }}>

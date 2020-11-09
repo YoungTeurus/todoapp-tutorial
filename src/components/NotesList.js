@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {TransitionGroup, CSSTransition} from 'react-transition-group';
 
-const NotesList = ({notes, onRemove}) => (
+const NotesList = ({notes, onRemove, onCheck}) => (
     <TransitionGroup component="ul" className="list-group">
       {notes.map(note => (
           <CSSTransition
@@ -11,7 +11,8 @@ const NotesList = ({notes, onRemove}) => (
               timeout={800}
           >
             <li className="list-group-item todo-item">
-              <div>
+              <div className={note.complete ? 'completed' : null}>
+                <input type="checkbox" checked={note.complete || false} onChange={() => onCheck(note.id)}/>&nbsp;
                 <strong>{note.title}</strong>
                 <small>{note.date}</small>
               </div>
@@ -28,7 +29,8 @@ const NotesList = ({notes, onRemove}) => (
 
 NotesList.propTypes = {
   notes: PropTypes.arrayOf(PropTypes.object).isRequired,
-  onRemove: PropTypes.func.isRequired
+  onRemove: PropTypes.func.isRequired,
+  onCheck: PropTypes.func.isRequired
 }
 
 export default NotesList;
